@@ -1,0 +1,29 @@
+// used for all emails!
+#message-body,
+html.angular-squire-iframe {
+	color: #000;
+	font-size: 15px;
+	line-height: 1.5em;
+	.email {
+		padding: 2rem;
+		word-wrap: break-word;
+	}
+	.collapse {
+		display: initial;
+	}
+	code.email,
+	.email.plain {
+		background-color: transparent;
+		border: 0;
+		border-radius: 0;
+		white-space: pre-wrap;
+	}
+	blockquote blockquote blockquote {
+		border-left: none;
+		padding: 1rem 0;
+	}
+	a {
+		text-decoration: underline;
+		color: $primary-color;
+	}
+}

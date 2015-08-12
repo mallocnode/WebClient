@@ -1,0 +1,118 @@
+<ng-include src="'templates/partials/header.tpl.html'" id="header"></ng-include>
+
+<div id="content">
+    <div class="container-fluid">
+        <ng-include src="'templates/partials/menu.settings.tpl.html'"></ng-include>
+
+        <h1>Key Export</h1>
+        <p>Download your PublicKey for use in other PGP compatible services.</p>
+        <a href ng-click="exportPublicKey()" class="btn btn-default">
+            <i class="fa fa-download"></i> Download PublicKey
+        </a>
+
+        <hr>
+
+        <h1 class="securityTitle">{{ 'AUTHENTICATION_LOGS' | translate }}</h1>
+
+        <div class="btn-group pull-right" ng-hide="doLogging == 0">
+            <a class="btn btn-default" ng-click="clearLogs()">
+                <i class="fa fa-times-circle"></i> {{ 'CLEAR_LOGS' | translate }}
+            </a>
+            <a
+            target="_blank"
+            ng-click="downloadLogs()"
+            class="btn btn-default">
+                <i class="fa fa-download"></i> {{ 'DOWNLOAD_LOGS' | translate }}
+            </a>
+        </div>
+
+        <a
+        href
+        class="btn btn-default btn-sm"
+        ng-class="{ 'disabled': doLogging == 0 }"
+        ng-click="initLogs()">
+            <i class="fa fa-refresh"></i>
+        </a>
+
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" ng-class="{'active': doLogging === 0}" ng-click="setLogging(0)">{{ disabledText }}</button>
+            <button type="button" class="btn btn-default" ng-class="{'active': doLogging === 1}" ng-click="setLogging(1)">Basic Logging</button>
+            <button type="button" class="btn btn-default" ng-class="{'active': doLogging === 2}" ng-click="setLogging(2)">Advanced Logging</button>
+        </div>
+
+        <div id="logArea" ng-show="doLogging != 0">
+
+            <p class="alert alert-info" ng-show="logs.length<1">No logs yet.</p>
+            <ul class="visible-xs-block list-group">
+                <li 
+                class="list-group-item" 
+                ng-repeat="log in logs | filter:paginate" 
+                ng-class="{ 'danger': (log.Event == 0) }">
+                    <div>
+                        <span ng-show="{{ log.Event == 0 }}">
+                            <i class="fa fa-times-circle"></i>
+                        </span>
+                        <span ng-show="{{ log.Event == 1 }}">
+                            <i class="fa fa-check"></i>
+                        </span>
+                        <span ng-show="{{ log.Event == 2 }}">
+                            <i class="fa fa-check"></i>
+                        </span>
+                        <strong ng-show="{{ log.Event == 0 }}">Login Failed</strong>
+                        <strong ng-show="{{ log.Event == 1 }}">Login Success</strong>
+                        <strong ng-show="{{ log.Event == 2 }}">Logout</strong>
+                    </div>
+                    <div>{{ log.Time * 1000 | date : 'medium' }}</div>
+                    <div ng-show="doLogging == 2">
+                        <kbd ng-show="log.IP!==''">{{log.IP}}</kbd>
+                        <kbd ng-show="log.IP===''">--</kbd>
+                    </div>
+                </tr>
+            </ul>
+            <table class="table table-bordered table-striped hidden-xs" id="accessLog" ng-init="initLogs()" ng-show="logs.length>0">
+                <thead>
+                    <tr>
+                        <th width="6rem"></th>
+                        <th>Event</th>
+                        <th>Time</th>
+                        <th ng-show="doLogging == 2">IP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="log in logs | filter:paginate" ng-class="{ 'danger': (log.Event == 0) }">
+                        <th>
+                            <div ng-show="{{ log.Event == 0 }}"><i class="fa fa-times-circle"></i></div>
+                            <div ng-show="{{ log.Event == 1 }}"><i class="fa fa-check"></i></div>
+                            <div ng-show="{{ log.Event == 2 }}"><i class="fa fa-check"></i></div>
+                        </th>
+                        <th scope="row">
+                            <span ng-show="{{ log.Event == 0 }}">Login Failed</span>
+                            <span ng-show="{{ log.Event == 1 }}">Login Success</span>
+                            <span ng-show="{{ log.Event == 2 }}">Logout</span>
+                        </th>
+                        <td>{{ log.Time * 1000 | date : 'medium' }}</td>
+                        <td ng-show="doLogging == 2">
+                            <kbd ng-show="log.IP!==''">{{log.IP}}</kbd>
+                            <kbd ng-show="log.IP===''">--</kbd>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="well" id="logHeader" ng-show="(logCount > logItemsPerPage)">
+
+                <pagination
+                ng-show="(logCount > logItemsPerPage)"
+                ng-change="loadLogs(page)"
+                max-size="6"
+                total-items="logCount"
+                items-per-page="logItemsPerPage"
+                ng-model="currentLogPage"
+                class="pagination-sm"
+                boundary-links="true"
+                direction-links="false" ></pagination>
+            </div>
+        </div>
+
+    </div>
+</div>

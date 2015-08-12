@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" ng-app="proton">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <base href="/">
+    <title>ProtonMail</title>
+    <link rel="shortcut icon" sizes="16x16 24x24 32x32 48x48 64x64" href="/assets/favicon.ico">
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/favicon_57.png">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/favicon_57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon_72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon_114.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="/assets/favicon_128.png">
+    <link rel="apple-touch-icon" sizes="195x195" href="/assets/favicon_195.png">
+    <meta name="application-name" content="ProtonMail">
+    <meta name="msapplication-TileImage" content="/assets/favicon_128.png">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <% styles.forEach(function (file) { %>
+        <link rel="stylesheet" type="text/css" href="/<%= file %>" />
+    <% }); %>
+    <ng-include src="'templates/partials/custom-theme.tpl.html'"></ng-include>
+</head>
+<body
+id="{{ toState }}"
+ng-class="{
+    locked: (isLoggedIn && isLocked) || ('login'|isState) || ('login.unlock'|isState) || ('eo.unlock'|isState) || ('eo.message'|isState) || ('reset'|isState) || ('eo.reply'|isState),
+    login:!isLoggedIn,unlock:isLocked,secure:isSecure(),
+    blank:!!isBlank}
+">
+<div id="loading">
+    <noscript style="padding: 2rem; display:block; text-align: center;">ProtonMail requires Javascript. Enable Javascript and reload this page to continue.</noscript>
+    <ng-include src="'templates/partials/loader.tpl.html'"></ng-include>
+</div>
+<div ui-view="main" autoscroll="false" id="body"></div>
+<% scripts.forEach(function (file) { %>
+    <script type="text/javascript" src="/<%= file %>"></script>
+<% }); %>
+</body>
+</html>
