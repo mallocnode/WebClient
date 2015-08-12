@@ -14,4 +14,4 @@ Copyright (c) 2013-2015
 Proton Technologies A.G. (Switzerland)
 Email: admin@protonmail.ch
 
-License: https://github.com/protonmail/license
+License: https://github.com/ProtonMail/Web-Client/blob/master/license.md
