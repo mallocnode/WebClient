@@ -1,7 +1,7 @@
 ProtonMail Web Client
 =======
 
-#### [https://v2.protonmail.ch](https://v2.protonmail.ch)
+#### [https://protonmail.ch](https://protonmail.ch)
 
 Official AngularJS web client for ProtonMail users.
 
